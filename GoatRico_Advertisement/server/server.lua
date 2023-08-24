@@ -14,7 +14,7 @@ local function IsPlayerAllowedToUseCommand(player)
     return false
 end
 
-local function SendNotification(xPlayer, title, duration, position, description, backgroundColor, despColor, cost)
+local function SendNotification(xPlayer, title, duration, position, description, backgroundColor, titleColor, despColor, cost)
     if xPlayer.getMoney() >= cost then
         TriggerClientEvent('ox_lib:notify', -1, {
             type = 'inform', 
@@ -25,6 +25,7 @@ local function SendNotification(xPlayer, title, duration, position, description,
             icon = Config.AdIcon,
             style = {
                 backgroundColor = backgroundColor,
+                color = titleColor,
                 ['.description'] = {
                     color = despColor
                 }
@@ -37,16 +38,16 @@ local function SendNotification(xPlayer, title, duration, position, description,
 end
 
 RegisterServerEvent('GoatRico:ServerAdvertisment')
-AddEventHandler('GoatRico:ServerAdvertisment', function(Time, Title, Msg, BackgroundColor, DespColor, Location)
+AddEventHandler('GoatRico:ServerAdvertisment', function(Time, Title, Msg, BackgroundColor, TitleColor, DespColor, Location)
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)
 
     if Time == 1 then
-        SendNotification(xPlayer, Title, Config.ShortNotificationTime, Location, Msg, BackgroundColor, DespColor, Config.ShortNotificationPrice)
+        SendNotification(xPlayer, Title, Config.ShortNotificationTime, Location, Msg, BackgroundColor, TitleColor, DespColor, Config.ShortNotificationPrice)
     elseif Time == 2 then
-        SendNotification(xPlayer, Title, Config.MediumNotificationTime, Location, Msg, BackgroundColor, DespColor, Config.MediumNotificationPrice)
+        SendNotification(xPlayer, Title, Config.MediumNotificationTime, Location, Msg, BackgroundColor, TitleColor, DespColor, Config.MediumNotificationPrice)
     elseif Time == 3 then
-        SendNotification(xPlayer, Title, Config.LongNotificationTime, Location, Msg, BackgroundColor, DespColor, Config.LongNotificationPrice)
+        SendNotification(xPlayer, Title, Config.LongNotificationTime, Location, Msg, BackgroundColor, TitleColor, DespColor, Config.LongNotificationPrice)
     else
         TriggerClientEvent('ox_lib:notify', src, { type = 'error', title = 'System', duration = 3500, position = 'center-right', description = 'Invalid option!'})
     end

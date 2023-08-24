@@ -8,7 +8,8 @@ RegisterNetEvent('GoatRico:OpenAdMenu', function(AdMenu)
             {type = 'input', label = 'Title', description = 'Enter the title for the advertisement', icon = 'pencil', required = true},
             {type = 'input', label = 'Message', description = 'Enter the message you want to convey', icon = 'keyboard', required = true},
             {type = 'color', label = 'Background Color', description = 'Choose the background color', icon = 'palette', default = '#eb4034', required = true,},
-            {type = 'color', label = 'Description Color', description = 'Choose the message color', icon = 'paintbrush', default = '#909296', required = true,},
+            {type = 'color', label = 'Title Color', description = 'Choose the title color', icon = 'paintbrush', default = '#909296', required = true,},
+            {type = 'color', label = 'Description Color', description = 'Choose the message color', icon = 'paintbrush', default = '#ffffff', required = true,},
             {type = 'select', label = 'Ad Display Location', description = 'Select where the Ad will be displayed', options = {
                 { value = 'top', label = 'Top' },
                 { value = 'top-right', label = 'Top Right' },
@@ -22,8 +23,8 @@ RegisterNetEvent('GoatRico:OpenAdMenu', function(AdMenu)
         })
 
         if input ~= nil then
-            local Time, Title, Msg, BackgroundColor, DespColor, Location = input[1], input[2], input[3], input[4], input[5], input[6]
-            TriggerServerEvent("GoatRico:ServerAdvertisment", Time, Title, Msg, BackgroundColor, DespColor, Location)
+            local Time, Title, Msg, BackgroundColor, TitleColor, DespColor, Location = input[1], input[2], input[3], input[4], input[5], input[6], input[7]
+            TriggerServerEvent("GoatRico:ServerAdvertisment", Time, Title, Msg, BackgroundColor, TitleColor, DespColor, Location)
         end
         Citizen.Wait(Config.CoolDownTime)
         isCooldownActive = false

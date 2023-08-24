@@ -4,7 +4,7 @@ Hey there! This is the readme for my FiveM resource called "GoatRico_Advertiseme
 ## Dependencies
 Before you get started, make sure you have the following dependencies installed:
 
-es_extended
+es_extended or QBCore
 ox_lib
 
 ## Installation

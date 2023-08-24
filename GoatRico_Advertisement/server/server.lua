@@ -1,12 +1,18 @@
-local ESX = nil
-local QBCore = nil
+ESX, QBCore = nil, nil
 local Framework = ''
-if GetResourceState('es_extended') ~= 'started' then
-    ESX = exports['es_extended']:getSharedObject()
-    Framework = 'esx'
-else
-    QBCore = exports['qb-core']:GetCoreObject()
-    Framework = 'qb-core'
+
+if Config.Framework == 'esx' then
+    while ESX == nil do
+        ESX = exports['es_extended']:getSharedObject()
+        Framework = 'esx'
+        Wait(100)
+    end
+elseif Config.Framework == 'qbcore' then
+    while QBCore == nil do
+        QBCore = exports['qb-core']:GetCoreObject()
+        Framework = 'qb-core'
+        Wait(100)
+    end
 end
 
 local function IsPlayerAllowedToUseCommand(player)
@@ -31,7 +37,8 @@ local function IsPlayerAllowedToUseCommand(player)
             end
         end
 
-    return false
+        return false
+    end
 end
 
 local function SendNotification(xPlayer, title, duration, position, description, backgroundColor, titleColor, despColor, cost)

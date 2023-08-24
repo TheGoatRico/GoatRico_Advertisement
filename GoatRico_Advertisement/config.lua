@@ -1,5 +1,5 @@
 Config = {}
-
+Config.Framework = 'esx' -- esx or qbcore
 Config.AdIcon = 'store' --Icon Displayed In The Advertisement Notification Find More Here https://fontawesome.com/icons
 
 Config.CoolDownTime = 600000 --Example 10 minutes = 600000 milliseconds.Time before allowing again

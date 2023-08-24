@@ -1,46 +1,89 @@
-ESX = exports['es_extended']:getSharedObject()
+if GetResourceState('es_extended') ~= 'started' then
+    ESX = exports['es_extended']:getSharedObject()
+    Framework = 'esx'
+else
+    QBCore = exports['qb-core']:GetCoreObject()
+end
 
 local function IsPlayerAllowedToUseCommand(player)
-    local xPlayer = ESX.GetPlayerFromId(player)
-    local playerJob = xPlayer.getJob().name 
-    local allowedJobs = Config.AllowedJobs
-    
-    for _, job in ipairs(allowedJobs) do
-        if playerJob == job then
-            return true
+    if Framework == 'esx' then
+        local xPlayer = ESX.GetPlayerFromId(player)
+        local playerJob = xPlayer.getJob().name 
+        local allowedJobs = Config.AllowedJobs
+        
+        for _, job in ipairs(allowedJobs) do
+            if playerJob == job then
+                return true
+            end
         end
-    end
+    else
+        local xPlayer = QBCore.Functions.GetPlayer(player)
+        local playerJob = xPlayer.PlayerData.job.name
+        local allowedJobs = Config.AllowedJobs
+        
+        for _, job in ipairs(allowedJobs) do
+            if playerJob == job then
+                return true
+            end
+        end
 
     return false
 end
 
 local function SendNotification(xPlayer, title, duration, position, description, backgroundColor, titleColor, despColor, cost)
-    if xPlayer.getMoney() >= cost then
-        TriggerClientEvent('ox_lib:notify', -1, {
-            type = 'inform', 
-            title = title,
-            duration = duration,
-            position = position,
-            description = description,
-            icon = Config.AdIcon,
-            style = {
-                backgroundColor = backgroundColor,
-                color = titleColor,
-                ['.description'] = {
-                    color = despColor
-                }
-            },
-        })
-        xPlayer.removeMoney(cost)
+    if Framework == 'esx' then
+        if xPlayer.getMoney() >= cost then
+            TriggerClientEvent('ox_lib:notify', -1, {
+                type = 'inform', 
+                title = title,
+                duration = duration,
+                position = position,
+                description = description,
+                icon = Config.AdIcon,
+                style = {
+                    backgroundColor = backgroundColor,
+                    color = titleColor,
+                    ['.description'] = {
+                        color = despColor
+                    }
+                },
+            })
+            xPlayer.removeMoney(cost)
+        else
+            TriggerClientEvent('ox_lib:notify', xPlayer.source, { type = 'error', title = 'Money', duration = 3500, position = 'center-right', description = 'You dont have enough money for that!'})
+        end
     else
-        TriggerClientEvent('ox_lib:notify', xPlayer.source, { type = 'error', title = 'Money', duration = 3500, position = 'center-right', description = 'You dont have enough money for that!'})
-    end
+        if xPlayer.Functions.GetMoney('bank') >= cost then
+            TriggerClientEvent('ox_lib:notify', -1, {
+                type = 'inform', 
+                title = title,
+                duration = duration,
+                position = position,
+                description = description,
+                icon = Config.AdIcon,
+                style = {
+                    backgroundColor = backgroundColor,
+                    color = titleColor,
+                    ['.description'] = {
+                        color = despColor
+                    }
+                },
+            })
+            xPlayer.Functions.RemoveMoney('bank', cost)
+        else
+            TriggerClientEvent('ox_lib:notify', xPlayer.source, { type = 'error', title = 'Money', duration = 3500, position = 'center-right', description = 'You dont have enough money for that!'})
+        end
 end
 
 RegisterServerEvent('GoatRico:ServerAdvertisment')
 AddEventHandler('GoatRico:ServerAdvertisment', function(Time, Title, Msg, BackgroundColor, TitleColor, DespColor, Location)
     local src = source
-    local xPlayer = ESX.GetPlayerFromId(src)
+    local xPlayer
+    if Framework == 'esx' then
+        local xPlayer = ESX.GetPlayerFromId(src)
+    else
+        local xPlayer = QBCore.Functions.GetPlayer(src)
+    end
 
     if Time == 1 then
         SendNotification(xPlayer, Title, Config.ShortNotificationTime, Location, Msg, BackgroundColor, TitleColor, DespColor, Config.ShortNotificationPrice)

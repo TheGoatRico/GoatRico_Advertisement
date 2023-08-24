@@ -1,8 +1,12 @@
+local ESX = nil
+local QBCore = nil
+local Framework = ''
 if GetResourceState('es_extended') ~= 'started' then
     ESX = exports['es_extended']:getSharedObject()
     Framework = 'esx'
 else
     QBCore = exports['qb-core']:GetCoreObject()
+    Framework = 'qb-core'
 end
 
 local function IsPlayerAllowedToUseCommand(player)

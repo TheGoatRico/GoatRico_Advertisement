@@ -73,6 +73,7 @@ local function SendNotification(xPlayer, title, duration, position, description,
         else
             TriggerClientEvent('ox_lib:notify', xPlayer.source, { type = 'error', title = 'Money', duration = 3500, position = 'center-right', description = 'You dont have enough money for that!'})
         end
+    end
 end
 
 RegisterServerEvent('GoatRico:ServerAdvertisment')

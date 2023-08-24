@@ -81,9 +81,9 @@ AddEventHandler('GoatRico:ServerAdvertisment', function(Time, Title, Msg, Backgr
     local src = source
     local xPlayer
     if Framework == 'esx' then
-        local xPlayer = ESX.GetPlayerFromId(src)
+        xPlayer = ESX.GetPlayerFromId(src)
     else
-        local xPlayer = QBCore.Functions.GetPlayer(src)
+        xPlayer = QBCore.Functions.GetPlayer(src)
     end
 
     if Time == 1 then

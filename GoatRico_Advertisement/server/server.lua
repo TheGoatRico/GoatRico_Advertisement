@@ -2,7 +2,7 @@ ESX = exports['es_extended']:getSharedObject()
 
 local function IsPlayerAllowedToUseCommand(player)
     local xPlayer = ESX.GetPlayerFromId(player)
-    local playerJob = xPlayer.getJob().name -- You need to implement this function
+    local playerJob = xPlayer.getJob().name 
     local allowedJobs = Config.AllowedJobs
     
     for _, job in ipairs(allowedJobs) do

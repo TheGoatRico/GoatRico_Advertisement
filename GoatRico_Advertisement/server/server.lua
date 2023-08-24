@@ -64,7 +64,7 @@ AddEventHandler('GoatRico:ServerAdvertisment', function(Time, Title, Msg, Backgr
 end)
 
 
-lib.addCommand("jobad", {
+lib.addCommand("jobad", { -- CHANGE COMMAND HERE IF YOU WANT
     help = 'Business Advertisement Menu',
 }, function(source)
     local player = source
